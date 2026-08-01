@@ -1,0 +1,74 @@
+:root {
+    --primary-color: #B39CD0; 
+    --secondary-color: #F8C8DC; 
+    --accent-color: #845EC2; 
+    --bg-color: #FFF0F5; 
+    --text-color: #4A4A4A;
+    --card-bg: #FFFFFF;
+}
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-color); scroll-behavior: smooth; }
+
+/* Navbar Animation */
+nav { background-color: var(--primary-color); padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(179, 156, 208, 0.3); transition: padding 0.3s ease; }
+nav.scrolled { padding: 0.8rem 2rem; background-color: rgba(179, 156, 208, 0.95); backdrop-filter: blur(5px); }
+nav .logo { font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: transform 0.3s; }
+nav .logo:hover { transform: scale(1.1); }
+nav a { color: white; text-decoration: none; margin-left: 1.5rem; font-weight: bold; transition: color 0.3s; position: relative; }
+nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--secondary-color); transition: width 0.3s ease; }
+nav a:hover::after { width: 100%; }
+nav a:hover { color: var(--secondary-color); }
+
+/* Hero Animation */
+.hero { text-align: center; padding: 6rem 2rem; background-color: var(--secondary-color); color: #5D4037; box-shadow: 0 4px 15px rgba(248, 200, 220, 0.4); border-bottom-left-radius: 50% 20px; border-bottom-right-radius: 50% 20px; }
+.animated-bg { animation: bgPulse 4s infinite alternate; }
+@keyframes bgPulse { from { background-color: var(--secondary-color); } to { background-color: #FFE4E1; } }
+.bounce { animation: bounce 2s infinite; color: var(--accent-color); font-size: 2.8rem;}
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-7px); } }
+.hero h1 { font-size: 2.8rem; margin-bottom: 1rem; color: var(--accent-color); }
+.hero p { font-size: 1.2rem; color: var(--text-color); }
+
+.container { max-width: 1200px; margin: 4rem auto; padding: 0 2rem; }
+.container h2 { text-align: center; color: var(--accent-color); margin-bottom: 2rem; font-size: 2rem; }
+
+/* Interactive Filter & Search */
+.search-container { text-align: center; margin-bottom: 2rem; }
+#searchInput { padding: 12px 20px; width: 80%; max-width: 500px; border: 2px solid var(--primary-color); border-radius: 25px; font-size: 1rem; outline: none; transition: box-shadow 0.3s; }
+#searchInput:focus { box-shadow: 0 0 10px rgba(179, 156, 208, 0.5); }
+
+.filter-container { text-align: center; margin-bottom: 3rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.filter-btn { background-color: transparent; border: 2px solid var(--primary-color); color: var(--primary-color); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+.filter-btn:hover, .filter-btn.active { background-color: var(--primary-color); color: white; }
+
+/* Product Cards */
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+.card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s; overflow: hidden; display: flex; flex-direction: column; }
+.card.hide { display: none; }
+.card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 15px 30px rgba(179, 156, 208, 0.4); z-index: 10; }
+
+/* อัปเดต CSS สำหรับรูปภาพ (img tag) */
+img.card-img { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    transition: transform 0.5s; 
+    background-color: var(--secondary-color);
+}
+.card:hover img.card-img { transform: scale(1.1); }
+
+.card-content { padding: 1.5rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1; background: white; position: relative; z-index: 2; }
+.card h3 { color: var(--accent-color); margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem; }
+.card p { font-size: 0.95rem; line-height: 1.5; color: #666; margin-bottom: 1.5rem; flex-grow: 1; }
+
+/* Interactive Buy Button */
+.buy-btn { background-color: var(--primary-color); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; width: 100%; position: relative; overflow: hidden; }
+.buy-btn:hover { background-color: var(--accent-color); transform: scale(1.05); box-shadow: 0 5px 15px rgba(132, 94, 194, 0.4); }
+.buy-btn:active { transform: scale(0.95); }
+.buy-btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; background: rgba(255, 255, 255, 0.5); opacity: 0; border-radius: 100%; transform: scale(1, 1) translate(-50%); transform-origin: 50% 50%; }
+@keyframes ripple { 0% { transform: scale(0, 0); opacity: 1; } 20% { transform: scale(25, 25); opacity: 1; } 100% { opacity: 0; transform: scale(40, 40); } }
+.buy-btn:focus:not(:active)::after { animation: ripple 1s ease-out; }
+
+/* Loader Style */
+.loader { grid-column: 1 / -1; text-align: center; padding: 4rem; font-size: 1.2rem; color: var(--accent-color); font-weight: bold; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+footer { text-align: center; padding: 2rem; background-color: var(--primary-color); color: white; margin-top: 4rem; }

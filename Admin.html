@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LilacStudy - ระบบหลังบ้าน (Admin)</title>
+    <style>
+        :root { --admin-bg: #f4f6f9; --admin-primary: #845EC2; --admin-text: #333; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--admin-bg); margin: 0; display: flex; height: 100vh; color: var(--admin-text); }
+        
+        /* หน้า Login */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #B39CD0; display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; width: 300px; }
+        .login-box h2 { margin-top: 0; color: var(--admin-primary); }
+        .login-box input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .login-box button { background: var(--admin-primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1rem; }
+        .login-box button:hover { background: #6b4aa3; }
+
+        /* หน้า Dashboard */
+        #dashboard { display: none; width: 100%; flex-direction: column; overflow-y: auto; }
+        header { background: white; padding: 1rem 2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;}
+        header h1 { margin: 0; color: var(--admin-primary); font-size: 1.5rem; }
+        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+        
+        .container { padding: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; width: 90%;}
+        .card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .card h3 { margin-top: 0; color: #555; }
+        .card .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .action-btn { display: inline-block; background: var(--admin-primary); color: white; text-decoration: none; padding: 10px 20px; border-radius: 20px; margin-top: 1rem; transition: transform 0.2s; }
+        .action-btn:hover { transform: scale(1.05); }
+
+        /* ตารางประวัติการสั่งซื้อ */
+        .table-container { grid-column: 1 / -1; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow-x: auto;}
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; text-align: left; }
+        th { background-color: #f8f9fa; padding: 12px; border-bottom: 2px solid #ddd; color: var(--admin-primary); }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background-color: #f1f1f1; }
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-success { background-color: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+
+    <!-- หน้าต่าง Login -->
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>🔒 Admin Login</h2>
+            <p>กรุณาใส่รหัสผ่านเพื่อเข้าสู่ระบบ</p>
+            <input type="password" id="passwordInput" placeholder="รหัสผ่าน (พิมพ์ว่า admin)">
+            <button onclick="checkPassword()">เข้าสู่ระบบ</button>
+            <p id="error-msg" style="color: red; display: none; font-size: 0.9rem;">รหัสผ่านไม่ถูกต้อง!</p>
+        </div>
+    </div>
+
+    <!-- หน้า Dashboard -->
+    <div id="dashboard">
+        <header>
+            <h1>✨ LilacStudy Admin Dashboard</h1>
+            <button class="logout-btn" onclick="logout()">ออกจากระบบ</button>
+        </header>
+        
+        <div class="container">
+            <!-- เมนูลัด -->
+            <div class="card">
+                <div class="icon">📦</div>
+                <h3>ฐานข้อมูลสินค้า</h3>
+                <p>เพิ่ม/ลบ แก้ไขราคา และรูปภาพ (Google Sheet)</p>
+                <a href="https://docs.google.com/spreadsheets/d/1H3Bxcn77LlAw_LJughJelLfk0AqCjL6YCXNlQ5a7-FY/edit?usp=sharing" target="_blank" class="action-btn">เปิดฐานข้อมูลสินค้า</a>
+            </div>
+
+            <div class="card">
+                <div class="icon">✅</div>
+                <h3>อนุมัติการสั่งซื้อ</h3>
+                <p>เช็คสลิปและกดส่งไฟล์ให้ลูกค้า (Google Sheet)</p>
+                <a href="https://docs.google.com/spreadsheets/d/12vo7SodNF7D4squiaMz6Adhkbm0r1pp6HhgBywpEpio/edit?usp=sharing" target="_blank" class="action-btn" style="background: #e83e8c;">ไปหน้าตรวจสลิป</a>
+            </div>
+            
+            <div class="card">
+                <div class="icon">🏪</div>
+                <h3>หน้าร้านค้า</h3>
+                <p>กลับไปดูหน้าเว็บไซต์หลักที่ลูกค้าเห็น</p>
+                <a href="index.html" class="action-btn" style="background: #4CAF50;">ไปที่หน้าร้าน</a>
+            </div>
+
+            <!-- ตารางแสดงประวัติออเดอร์ล่าสุด -->
+            <div class="table-container">
+                <h3 style="margin-top: 0; color: var(--admin-primary);">📋 ออเดอร์ล่าสุด (ดึงจากระบบอัตโนมัติ)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>เวลาสั่งซื้อ</th>
+                            <th>อีเมลลูกค้า</th>
+                            <th>สินค้าที่สั่ง</th>
+                            <th>สถานะการจัดส่ง</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                        <tr><td colspan="4" style="text-align:center; padding: 20px;">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = "admin"; 
+        
+        // ⚠️ เอาลิงก์ CSV จากฟอร์มตอบกลับ (จากขั้นตอนที่ 1) มาใส่ในเครื่องหมายคำพูดด้านล่างนี้ครับ
+        const ORDER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCE15n29ls0uAA15hXe32Or424sI_40wvfxGk4iDjSMcIG2JGwkaJ68q8SuTK1ObORvN2-NjzSRX2o/pub?output=csv';
+
+        function checkPassword() {
+            const pass = document.getElementById('passwordInput').value;
+            if(pass === ADMIN_PASSWORD) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'flex';
+                fetchOrderHistory(); // ดึงข้อมูลทันทีที่เข้าระบบสำเร็จ
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        // ฟังก์ชันดึงประวัติการสั่งซื้อจาก Sheet
+        async function fetchOrderHistory() {
+            if(ORDER_CSV_URL === '') {
+                document.getElementById('orderTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">กรุณาใส่ลิงก์ CSV ในโค้ดก่อนครับ</td></tr>';
+                return;
+            }
+
+            try {
+                const response = await fetch(ORDER_CSV_URL);
+                const text = await response.text();
+                const lines = text.split('\n').filter(line => line.trim() !== '');
+                const tbody = document.getElementById('orderTableBody');
+                tbody.innerHTML = '';
+
+                if (lines.length < 2) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">ยังไม่มีรายการสั่งซื้อ</td></tr>';
+                    return;
+                }
+
+                const headers = lines[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(h => h.replace(/^"|"$/g, '').trim());
+                
+                // หาตำแหน่งคอลัมน์อัตโนมัติ (เผื่อสลับที่กัน)
+                const timeCol = headers.findIndex(h => h.includes('ประทับเวลา') || h.includes('Timestamp'));
+                const emailCol = headers.findIndex(h => h.includes('อีเมล'));
+                const prodCol = headers.findIndex(h => h.includes('สินค้า'));
+                const statusCol = headers.findIndex(h => h.includes('สถานะ'));
+
+                // วนลูปจากล่างขึ้นบน เพื่อโชว์คนล่าสุดไว้บนสุด (จำกัดโชว์แค่ 10 รายการล่าสุด)
+                const limit = Math.max(1, lines.length - 10);
+                for (let i = lines.length - 1; i >= limit; i--) {
+                    const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => col.replace(/^"|"$/g, '').trim());
+                    
+                    const time = timeCol > -1 ? row[timeCol] : '-';
+                    const email = emailCol > -1 ? row[emailCol] : '-';
+                    const product = prodCol > -1 ? row[prodCol] : '-';
+                    let status = statusCol > -1 ? row[statusCol] : '';
+                    
+                    // เช็คสถานะเพื่อเปลี่ยนสี
+                    let statusHtml = '';
+                    if (status.includes('ส่งแล้ว')) {
+                        statusHtml = `<span class="status-badge status-success">ส่งแล้ว ✅</span>`;
+                    } else {
+                        statusHtml = `<span class="status-badge status-pending">รอดำเนินการ ⏳</span>`;
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${time}</td>
+                        <td>${email}</td>
+                        <td>${product}</td>
+                        <td>${statusHtml}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            } catch (error) {
+                console.error("Error loading orders:", error);
+                document.getElementById('orderTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">ดึงข้อมูลล้มเหลว กรุณารีเฟรชหน้าเว็บ</td></tr>';
+            }
+        }
+    </script>
+</body>
+</html>

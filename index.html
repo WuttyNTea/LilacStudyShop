@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LilacStudy - ร้านสินค้าดิจิทัล</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">✨ LilacStudy</div>
+        <div class="links">
+            <a href="#home">หน้าแรก</a>
+            <a href="#products">สินค้าดิจิทัล</a>
+            <a href="#order-status">สั่งซื้อสินค้า</a>
+            <a href="#contact">ติดต่อเรา</a>
+        </div>
+    </nav>
+
+    <div class="hero animated-bg" id="home">
+        <h1 class="bounce">ยินดีต้อนรับสู่ LilacStudy 🌸</h1>
+        <p>แหล่งรวมสินค้าดิจิทัล เทมเพลต และแพลนเนอร์น่ารักๆ โทนสีชมพู-Lilac</p>
+    </div>
+
+    <div class="container" id="products">
+        <h2>สินค้าทั้งหมดของเรา</h2>
+        
+        <!-- ช่องค้นหาสินค้า (Interactive 1) -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 ค้นหาสินค้า... (เช่น Planner, ชีทสรุป, Notion)">
+        </div>
+        
+        <!-- ปุ่มหมวดหมู่ (Interactive 2) -->
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterProducts('all')">ทั้งหมด</button>
+            <button class="filter-btn" onclick="filterProducts('Planner')">Planner</button>
+            <button class="filter-btn" onclick="filterProducts('Education')">Education</button>
+            <button class="filter-btn" onclick="filterProducts('Template')">Template</button>
+            <button class="filter-btn" onclick="filterProducts('Sticker')">Sticker</button>
+            <button class="filter-btn" onclick="filterProducts('Graphic')">Graphic</button>
+        </div>
+
+        <!-- พื้นที่แสดงสินค้าที่จะโหลดจาก Google Sheet อัตโนมัติ -->
+        <div class="products-grid" id="productGrid">
+            <div class="loader">⏳ กำลังโหลดข้อมูลสินค้าจากฐานข้อมูล...</div>
+        </div>
+    </div>
+
+    <!-- พื้นที่สำหรับใส่ Google Form iframe -->
+    <div class="container" id="order-status">
+    <h2>สั่งซื้อสินค้า & แจ้งโอนเงิน</h2>
+    <div style="background: white; padding: 40px 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center;">
+        
+        <h3 style="color: var(--accent-color); margin-bottom: 20px;">สแกน QR Code เพื่อชำระเงิน</h3>
+        <!-- ถ้าคุณมีรูป QR Code พร้อมเพย์ สามารถเอาลิงก์รูปมาใส่แทน URL ด้านล่างนี้ได้เลยครับ -->
+        <img src="https://via.placeholder.com/200x200?text=QR+Code+PromptPay" alt="QR Code" style="max-width: 200px; margin-bottom: 20px; border-radius: 15px; border: 2px solid var(--secondary-color);">
+        
+        <p style="margin-bottom: 25px; color: #666;">เมื่อชำระเงินเรียบร้อยแล้ว กรุณากดปุ่มด้านล่างเพื่อกรอกข้อมูลและแนบสลิปครับ</p>
+        
+        <!-- อย่าลืมเปลี่ยน "ลิงก์ฟอร์มของคุณตรงนี้" เป็นลิงก์ Google Form (แบบสั้น) ของร้านคุณนะครับ -->
+        <a href="https://forms.gle/N9zRJLeMieiyvKNH8" target="_blank" class="buy-btn" style="display: inline-block; width: auto; padding: 15px 40px; font-size: 1.1rem; text-decoration: none;">📝 คลิกที่นี่เพื่อกรอกฟอร์มแนบสลิป</a>
+        
+    </div>
+</div>
+
+    <footer id="contact">
+        <p>© 2026 DigiShop. All rights reserved. | ธีมสี Pink & Lilac</p>
+        <p style="margin-top: 10px;">
+            <a href="admin.html" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem;">🔒 ระบบจัดการร้านค้า (Admin)</a>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
