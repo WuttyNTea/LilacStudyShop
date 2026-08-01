@@ -30,15 +30,16 @@
             <input type="text" id="searchInput" placeholder="🔍 ค้นหาสินค้า... (เช่น Planner, ชีทสรุป, Notion)">
         </div>
         
-        <!-- ปุ่มหมวดหมู่ (Interactive 2) -->
-        <div class="filter-container">
-            <button class="filter-btn active" onclick="filterProducts('all')">ทั้งหมด</button>
-            <button class="filter-btn" onclick="filterProducts('Planner')">Planner</button>
-            <button class="filter-btn" onclick="filterProducts('Education')">Education</button>
-            <button class="filter-btn" onclick="filterProducts('Template')">Template</button>
-            <button class="filter-btn" onclick="filterProducts('Sticker')">Sticker</button>
-            <button class="filter-btn" onclick="filterProducts('Graphic')">Graphic</button>
-        </div>
+        <!-- แถบปุ่มหมวดหมู่ -->
+    <div class="category-bar">
+        <button class="filter-btn active" onclick="filterCategory('ทั้งหมด', this)">ทั้งหมด</button>
+        <button class="filter-btn" onclick="filterCategory('Planner', this)">Planner</button>
+        <button class="filter-btn" onclick="filterCategory('Education', this)">Education</button>
+        <button class="filter-btn" onclick="filterCategory('Template', this)">Template</button>
+        <button class="filter-btn" onclick="filterCategory('Sticker', this)">Sticker</button>
+        <button class="filter-btn" onclick="filterCategory('Graphic', this)">Graphic</button>
+    </div>
+        
 
         <!-- พื้นที่แสดงสินค้าที่จะโหลดจาก Google Sheet อัตโนมัติ -->
         <div class="products-grid" id="productGrid">
