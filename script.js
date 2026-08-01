@@ -83,8 +83,8 @@ function parseCSV(csvText) {
             const product = {
                 sku: row[0],
                 name: row[1],
-                category: row[2],
-                description: row[3],
+                category: row[3],
+                description: row[2],
                 price: row[4],
                 image: row[5]
             };
@@ -114,18 +114,19 @@ function createProductCard(product, container) {
     container.appendChild(card);
 }
 
-// 5. Filter Category Functionality
-function filterProducts(category) {
+// 5. Filter Category Functionality (อัปเดตใหม่ให้ตรงกับ HTML)
+function filterCategory(category, clickedButton) {
     const cards = document.querySelectorAll('.card');
     const buttons = document.querySelectorAll('.filter-btn');
     
-    // Update active button state
+    // อัปเดตสีปุ่ม: ล้างสถานะ active ออกจากทุกปุ่ม แล้วใส่ให้ปุ่มที่เพิ่งโดนกด
     buttons.forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    clickedButton.classList.add('active');
 
-    // Filter cards
+    // กรองการ์ดสินค้า
     cards.forEach(card => {
-        if (category === 'all') {
+        // เช็คคำว่า 'ทั้งหมด' ให้ตรงกับที่ส่งมาจาก HTML
+        if (category === 'ทั้งหมด') { 
             card.style.display = 'flex';
         } else {
             if (card.getAttribute('data-category') === category) {
